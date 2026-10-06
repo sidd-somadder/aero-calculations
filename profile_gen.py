@@ -64,4 +64,4 @@ def save_profile_coords(coords, title="profile"):
 
 prev_coords = generate_prev_profile(5)
 profile_plot(prev_coords)
-save_profile_coords(coords=prev_coords,title="prev_profile")
+save_profile_coords(coords=prev_coords,title="prev_profile_5inchchord")
