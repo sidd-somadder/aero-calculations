@@ -58,7 +58,7 @@ def save_profile_coords(coords, title="profile"):
 
     with open(filepath, 'w') as f:
         for row in coords:
-            f.write(f"  {row[0]:.12e}  {row[1]:.12e}\n")
+            f.write(f"  {row[0]:.6e}  {row[1]:.6e}\n")
 
     print(f"Profile coordinates saved to {filepath}.")
 
