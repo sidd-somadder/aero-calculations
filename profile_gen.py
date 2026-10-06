@@ -1,5 +1,6 @@
 import numpy as np;
 import matplotlib.pyplot as plt
+from pathlib import Path
 
 def generate_prev_profile(chord, thickness=0.25, c_pts=200, le_max_t_percent = 0.04, te_max_t_percent=0.975):
     x_axis = np.linspace(0,chord, c_pts+1, endpoint=True);
@@ -48,6 +49,19 @@ def profile_plot(coords):
     plt.xlabel(f"x, inch")
     plt.show()
 
+def save_profile_coords(coords, title="profile"):
+    Path("saved_profile_coords").mkdir(exist_ok=True)
+
+    filename = f"{title}.dat"
+
+    filepath = Path("saved_profile_coords") / filename
+
+    with open(filepath, 'w') as f:
+        for row in coords:
+            f.write(f"  {row[0]:.12e}  {row[1]:.12e}\n")
+
+    print(f"Profile coordinates saved to {filepath}.")
 
 prev_coords = generate_prev_profile(5)
 profile_plot(prev_coords)
+save_profile_coords(coords=prev_coords,title="prev_profile")

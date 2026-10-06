@@ -218,3 +218,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Ignore generated profile coordinate dat, preserve folder via .gitkeep
+saved_airfoil_coords/*
+!saved_airfoil_coords/.gitkeep
