@@ -129,10 +129,10 @@ def run_xfoilinv(dat_path, alpha=0):
         if not os.path.isfile(polar_file):
             raise RuntimeError("XFOIL produced no polar file")
 
-        print(proc.stdout[-4000:])
+        #print(proc.stdout[-4000:])
 
         cl, cd = read_polar(polar_file, alpha)
-        return cd;
+        return float(cl), float(cd);
 
 
 chord = 5.0 # in
@@ -142,6 +142,6 @@ file = "prev_profile_5inchchord.dat"
 
 dat_path = os.path.join(os.path.dirname(__file__), "saved_profile_coords", file)
 
-print(run_xfoilv(dat_path,chord_ft,Vmax))
-#print(run_xfoilinv(dat_path))
+#print(run_xfoilv(dat_path,chord_ft,Vmax))
+print(run_xfoilinv(dat_path))
     
