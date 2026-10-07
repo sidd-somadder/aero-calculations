@@ -17,15 +17,19 @@ def generate_prev_profile(chord, thickness=0.25, c_pts=200, le_max_t_percent = 0
     TE_maxpt = round(c_pts*te_max_t_percent)
 
     LE_slope = (0.5*thickness)/(chord*le_max_t_percent)
+    TE_slope = half_t / (chord * (1 - te_max_t_percent))
 
     y_upper[0:LE_maxpt+1] = LE_slope * x_axis[0:LE_maxpt+1]    
     y_lower[0:LE_maxpt+1] = -y_upper[0:LE_maxpt+1]  
 
-    y_upper[9:TE_maxpt] = half_t
-    y_lower[9:TE_maxpt] = -half_t
+    y_upper[LE_maxpt+1:TE_maxpt] = half_t
+    y_lower[LE_maxpt+1:TE_maxpt] = -half_t
 
-    y_upper[TE_maxpt:] = half_t - (x_axis[TE_maxpt:] - chord*te_max_t_percent)
-    y_lower[TE_maxpt:] = -y_upper[TE_maxpt:]
+    y_upper[TE_maxpt:-1] = half_t - TE_slope*(x_axis[TE_maxpt:-1] - chord*te_max_t_percent)
+    y_lower[TE_maxpt:-1] = -y_upper[TE_maxpt:-1]
+
+    y_upper[-1] = 0
+    y_lower[-1] = 0
 
     # Selig format
     y_upper = np.flip(y_upper)
