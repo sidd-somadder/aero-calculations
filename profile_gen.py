@@ -2,7 +2,7 @@ import numpy as np;
 import matplotlib.pyplot as plt
 from pathlib import Path
 
-def generate_prev_profile(chord, thickness=0.25, c_pts=200, le_max_t_percent = 0.04, te_max_t_percent=0.975):
+def generate_prev_profile(chord, thickness=0.25, c_pts=200, chamfer=45):
     x_axis = np.linspace(0,chord, c_pts+1, endpoint=True);
 
     y_upper = np.zeros_like(x_axis)
@@ -11,7 +11,13 @@ def generate_prev_profile(chord, thickness=0.25, c_pts=200, le_max_t_percent = 0
     # LE bevel reaches max thickness at 4% chord
     # TE bevel tapers to a point starting at 97.5% chord
 
+    chamfer = np.deg2rad(chamfer)
+
     half_t = 0.5*thickness
+    chamf_xdist = half_t/np.tan(chamfer)
+
+    le_max_t_percent = chamf_xdist/chord
+    te_max_t_percent = (chord - chamf_xdist)/chord 
 
     LE_maxpt = round(c_pts*le_max_t_percent)
     TE_maxpt = round(c_pts*te_max_t_percent)
@@ -37,8 +43,6 @@ def generate_prev_profile(chord, thickness=0.25, c_pts=200, le_max_t_percent = 0
     lower = np.column_stack((x_axis[1:], y_lower[1:]))
 
     coords = np.concatenate((upper,lower), axis=0)
-
-    
     return(coords);
 
 def profile_plot(coords):
@@ -66,6 +70,6 @@ def save_profile_coords(coords, title="profile"):
 
     print(f"Profile coordinates saved to {filepath}.")
 
-prev_coords = generate_prev_profile(5,c_pts=240)
+prev_coords = generate_prev_profile(5,c_pts=240,chamfer=45)
 profile_plot(prev_coords)
 save_profile_coords(coords=prev_coords,title="prev_profile_5inchchord")
